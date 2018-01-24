@@ -46,11 +46,16 @@ do
     then
 	echo "${each_bam} Not Valid."
     elif [ -e ${finished_samples} ] && 
-	grep ${each_sample} ${finished_samples} > /dev/null 
+	grep ${each_sample} ${finished_samples} > /dev/null &&
+	[ ! -s ${each_sample_dir}/skipped.gtf ]
     then
 	echo "${each_sample} assembly finished!"
     else
-	echo "#!/bin/bash" > ${script_dir}/${each_sample}.sh
+	if [ -s ${each_sample_dir}/skipped.gtf ]
+	then
+	    each_sample_bz=$((${each_sample_bz} * 2))
+	fi
+	echo "#!/bin/bash" > ${script_dir}/${each_sample}.sh.test
 	echo "cufflinks \\
           --max-bundle-frags ${each_sample_bz} \\
           -p 8 \\
