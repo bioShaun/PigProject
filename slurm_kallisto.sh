@@ -37,7 +37,6 @@ do
 	echo "kallisto quant \\
           --threads 4 \\
           -i ${kallisto_idx} \\
-          --bootstrap-samples=100 \\
           --output-dir=${each_sample_dir} \\
           ${strand} \\
           ${fq_dir}/${each_sample}_1.clean.fq.gz \\
